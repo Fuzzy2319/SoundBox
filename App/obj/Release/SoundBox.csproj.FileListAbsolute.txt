@@ -1,0 +1,12 @@
+d:\Users\alexa\Documents\SoundBox\App\bin\Release\SoundBox.exe.config
+d:\Users\alexa\Documents\SoundBox\App\bin\Release\SoundBox.exe
+d:\Users\alexa\Documents\SoundBox\App\bin\Release\SoundBox.pdb
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.csprojAssemblyReference.cache
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\Interop.WMPLib.dll
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.csproj.ResolveComReference.cache
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.FormSoundBox.resources
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.Properties.Resources.resources
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.csproj.GenerateResource.cache
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.csproj.CoreCompileInputs.cache
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.exe
+d:\Users\alexa\Documents\SoundBox\App\obj\Release\SoundBox.pdb
