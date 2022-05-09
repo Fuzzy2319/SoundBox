@@ -7,11 +7,13 @@ namespace SoundBox
     {
         private List<WindowsMediaPlayer> theSounds;
         private List<Button> theButtons;
+        private List<string> soundPaths;
 
         public FormSoundBox()
         {
             this.theSounds = new List<WindowsMediaPlayer>();
             this.theButtons = new List<Button>();
+            this.soundPaths = new List<string>();
             InitializeComponent();
         }
 
@@ -29,9 +31,9 @@ namespace SoundBox
             aButton.Location = new Point(200 * ind + 100, 50);
             aButton.Size = new Size(200, 50);
             aButton.TabIndex = ind;
-            aButton.Text = Path.GetFileNameWithoutExtension(theSounds[ind].URL);
+            aButton.Text = Path.GetFileNameWithoutExtension(this.theSounds[ind].URL);
             aButton.UseVisualStyleBackColor = true;
-            aButton.Click += new EventHandler(btnSound_Click);
+            aButton.Click += new EventHandler(this.btnSound_Click);
             this.theButtons.Add(aButton);
         }
         private void btnSound_Click(object sender, EventArgs e)
@@ -40,14 +42,14 @@ namespace SoundBox
             {
                 bool isPlaying = false;
                 int ind = -1;
-                while (!isPlaying && ind < (theSounds.Count - 1))
+                while (!isPlaying && ind < (this.theSounds.Count - 1))
                 {
                     ind += 1;
-                    isPlaying = theSounds[ind].status.StartsWith("Lecture");
+                    isPlaying = this.theSounds[ind].status.StartsWith("Lecture");
                 }
                 if (!isPlaying)
                 {
-                    theSounds[this.flpSounds.Controls.IndexOf((Control)sender)].controls.play();
+                    this.theSounds[this.flpSounds.Controls.IndexOf((Control)sender)].controls.play();
                 }
             }
             catch (Exception error)
@@ -58,29 +60,27 @@ namespace SoundBox
 
         private void FormSoundBox_Shown(object sender, EventArgs e)
         {
-            string mediaFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\SoundBox\Media\";
-            List<string> allowedExtensions = new List<string>();
-            allowedExtensions.AddRange(new[] { ".aac", ".aif", ".aup", ".cda", ".flac", ".m3u", ".m4a", ".mid", ".midi", ".mp3", ".mpa", ".oga", ".ogg", ".ra", ".ram", ".wav", ".wma" });
+            for (int ind = 0; ind < this.soundPaths.Count; ind += 1)
+            {
+                this.CreateSoundPlayer(this.soundPaths[ind]);
+                this.CreateButton(ind);
+                this.flpSounds.Controls.Add(this.theButtons[ind]);
+            }
+        }
+
+        private void FormSoundBox_Load(object sender, EventArgs e)
+        {
+            string mediaFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\SoundBox\";
+            List<string> allowedExtensions = new List<string>(new[] { ".aac", ".aif", ".aup", ".cda", ".flac", ".m3u", ".m4a", ".mid", ".midi", ".mp3", ".mpa", ".oga", ".ogg", ".ra", ".ram", ".wav", ".wma" });
             if (!Directory.Exists(mediaFolder))
             {
                 Directory.CreateDirectory(mediaFolder);
             }
-            List<string> soundFiles = Directory.EnumerateFiles(mediaFolder).Where(aFile => allowedExtensions.Any(aFile.ToLower().EndsWith)).ToList();
-            if (soundFiles.Count == 0)
+            this.soundPaths.AddRange(Directory.EnumerateFiles(mediaFolder).Where(aFile => allowedExtensions.Any(aFile.ToLower().EndsWith)).ToList());
+            if (this.soundPaths.Count == 0)
             {
                 MessageBox.Show("Aucun son trouvé, vous pouvez en ajouter dans le dossier " + mediaFolder);
                 Environment.Exit(-1);
-            }
-            else
-            {
-                string aSoundFile;
-                for (int ind = 0; ind < soundFiles.Count; ind += 1)
-                {
-                    aSoundFile = soundFiles[ind];
-                    CreateSoundPlayer(aSoundFile);
-                    CreateButton(ind);
-                    this.flpSounds.Controls.Add(theButtons[ind]);
-                }
             }
         }
     }
